@@ -1,13 +1,26 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import {
+  addFavorite,
+  removeFavorite,
+  getFavorites,
+} from "../utils/localStorage";
+
 const NewsCard = ({ news }) => {
+  const [isLiked, setIsLiked] = useState(false);
+
+  useEffect(() => {
+    const favorites = getFavorites();
+    if (favorites.includes(news.id)) {
+      setIsLiked(true);
+    } else {
+      setIsLiked(false);
+    }
+  }, [isLiked]);
+
   return (
-    <div className="w-10/12 mx-auto p-5 ">
-      <Link
-        to={`${news.url}`}
-        target="_blank"
-        className="bg-[#f8f1e7] flex flex-col sm:flex-row gap-8 justify-center border-1 border-gray-200 shadow-sm p-3 rounded-md"
-      >
+    <div className="mx-auto p-5 ">
+      <div className="bg-[#f8f1e7] flex flex-col sm:flex-row gap-8 justify-center border-1 border-gray-200 shadow-md p-3 rounded-md">
         <div className="">
           <img
             src={`${
@@ -37,7 +50,17 @@ const NewsCard = ({ news }) => {
             }`}
           </p>
         </div>
-      </Link>
+        <div
+          className="flex self-end text-xl cursor-pointer"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsLiked((prev) => !prev);
+            isLiked ? removeFavorite(news.id) : addFavorite(news.id);
+          }}
+        >
+          {isLiked ? <FaHeart className="text-red-600" /> : <FaRegHeart />}
+        </div>
+      </div>
     </div>
   );
 };
