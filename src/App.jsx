@@ -1,15 +1,25 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
+import { useSelector } from "react-redux";
+import FullNewsModal from "./components/FullNewsModal";
+import Favourites from "./components/Favourites";
 
 function App() {
+  const { fullNews } = useSelector((state) => state.newsReducer);
   return (
-    <div>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/:page" element={<Home />} />
-      </Routes>
-    </div>
+    <>
+      <div className={`${fullNews ? "blur-sm" : ""}`}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/favourites" element={<Favourites />} />
+          <Route path="/:page" element={<Home />} />
+        </Routes>
+      </div>
+      <div className="absolute top-48 left-5 md:top-16 md:left-52 mx-auto">
+        {fullNews && <FullNewsModal news={fullNews} />}
+      </div>
+    </>
   );
 }
 

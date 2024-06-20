@@ -4,7 +4,7 @@ import { MultiSelectDropdown } from "../components/MultiSelectDropdown";
 import NewsCard from "../components/NewsCard";
 import Spinner from "../components/Spinner";
 import { PiTelevisionFill } from "react-icons/pi";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchNews } from "../services/newsAPI";
@@ -15,8 +15,10 @@ const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const page = parseInt(useLocation().pathname.split("/")[1]) || 0;
-  const { news, loading } = useSelector((state) => state.newsReducer);
-  console.log("news", news);
+  const { news, loading, favourites } = useSelector(
+    (state) => state.newsReducer
+  );
+  console.log("news", favourites);
 
   useEffect(() => {
     //fetch news from api
@@ -36,6 +38,8 @@ const Home = () => {
     };
     getCategories();
   }, []);
+
+  console.log("category", categories);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -59,6 +63,14 @@ const Home = () => {
             <PiTelevisionFill />
             News Platform
           </p>
+
+          <button
+            onClick={() => navigate("/favourites")}
+            className="px-12 py-2 rounded-md flex items-center gap-3"
+          >
+            Favourites
+          </button>
+
           <MultiSelectDropdown
             options={categories}
             selectedOptions={selectedCategories}

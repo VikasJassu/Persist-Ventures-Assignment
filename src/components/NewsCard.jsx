@@ -1,13 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaBookOpen, FaHeart, FaRegHeart } from "react-icons/fa";
+import { useDispatch } from "react-redux";
 import {
   addFavorite,
   removeFavorite,
   getFavorites,
 } from "../utils/localStorage";
+import { setFullNews } from "../redux/newsSlice";
+import { Link } from "react-router-dom";
 
-const NewsCard = ({ news }) => {
+const NewsCard = ({ news, removeLikes }) => {
   const [isLiked, setIsLiked] = useState(false);
+  const [msg, setMsg] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleShowModal = () => {
+    dispatch(
+      setFullNews({
+        imageUrl: news.image,
+        title: news.title,
+        description: news.description,
+        isLiked: isLiked,
+      })
+    );
+  };
 
   useEffect(() => {
     const favorites = getFavorites();
@@ -19,8 +35,11 @@ const NewsCard = ({ news }) => {
   }, [isLiked]);
 
   return (
-    <div className="mx-auto p-5 ">
-      <div className="bg-[#f8f1e7] flex flex-col sm:flex-row gap-8 justify-center border-1 border-gray-200 shadow-md p-3 rounded-md">
+    <div className="mx-auto p-5">
+      <div
+        onClick={() => handleShowModal()}
+        className="bg-[#f8f1e7] flex flex-col sm:flex-row gap-8 justify-center border-1 border-gray-200 shadow-md p-3 rounded-md cursor-pointer relative"
+      >
         <div className="">
           <img
             src={`${
@@ -50,15 +69,31 @@ const NewsCard = ({ news }) => {
             }`}
           </p>
         </div>
-        <div
-          className="flex self-end text-xl cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsLiked((prev) => !prev);
-            isLiked ? removeFavorite(news.id) : addFavorite(news.id);
-          }}
-        >
-          {isLiked ? <FaHeart className="text-red-600" /> : <FaRegHeart />}
+        <div className="flex absolute text-xl cursor-pointer gap-2 bottom-2 right-2">
+          <Link
+            onClick={(e) => e.stopPropagation()}
+            to={news.url}
+            target="_blank"
+            onMouseEnter={() => setMsg(true)}
+            onMouseLeave={() => setMsg(false)}
+          >
+            <FaBookOpen />
+          </Link>
+          <p
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsLiked((prev) => !prev);
+              removeLikes && removeLikes();
+              isLiked ? removeFavorite(news.id) : addFavorite(news.id);
+            }}
+          >
+            {isLiked ? <FaHeart className="text-red-600" /> : <FaRegHeart />}
+          </p>
+          {msg && (
+            <p className="bg-orange-500 text-xs rounded-lg p-1 absolute right-7 bottom-6 transition-all">
+              Original Article
+            </p>
+          )}
         </div>
       </div>
     </div>
