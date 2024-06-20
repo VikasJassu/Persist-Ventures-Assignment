@@ -6,39 +6,35 @@ import Spinner from "../components/Spinner";
 import { PiTelevisionFill } from "react-icons/pi";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchNews } from "../services/newsAPI";
 
 const Home = () => {
-  const [loading, setLoading] = useState(true);
-  const [apiData, setApiData] = useState({ news: [] });
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const params = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const page = parseInt(useLocation().pathname.split("/")[1]) || 0;
-  console.log("params", page);
+  const { news, loading } = useSelector((state) => state.newsReducer);
+  console.log("news", news);
 
   useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      try {
-        const response = await axios(
-          "https://api.currentsapi.services/v1/latest-news?language=en&apiKey=q0vJ7nWllMgbalBcomg8ACNt6NU3ieeZCH_qUqbHoRplm3up"
-        );
-        console.log("printing data", response.data);
-        setApiData(response.data);
+    //fetch news from api
+    if (news.length === 0) {
+      dispatch(fetchNews());
+    }
 
-        // Extract and set unique categories
-        const allCategories = response.data.news.flatMap(
-          (newsItem) => newsItem.category
-        );
+    //get all categories of news
+    const getCategories = () => {
+      try {
+        const allCategories = news.flatMap((newsItem) => newsItem.category);
         const uniqueCategories = [...new Set(allCategories)];
         setCategories(uniqueCategories);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-      setLoading(false);
-    }
-    fetchData();
+    };
+    getCategories();
   }, []);
 
   useEffect(() => {
@@ -48,14 +44,13 @@ const Home = () => {
   // Filter news based on selected categories
   const filteredNews =
     selectedCategories.length === 0
-      ? apiData.news
-      : apiData.news.filter((newsItem) =>
+      ? news
+      : news.filter((newsItem) =>
           newsItem.category.some((category) =>
             selectedCategories.includes(category)
           )
         );
 
-  console.log(filteredNews.length);
   return (
     <div>
       <div className="border rounded relative">
