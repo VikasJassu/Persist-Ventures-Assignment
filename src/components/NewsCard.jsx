@@ -9,10 +9,11 @@ import {
 import { setFullNews } from "../redux/newsSlice";
 import { Link } from "react-router-dom";
 
-const NewsCard = ({ news, removeLikes }) => {
+const NewsCard = ({ news, setRemoveLike }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [msg, setMsg] = useState(false);
   const dispatch = useDispatch();
+  console.log("like haat gya", isLiked);
 
   const handleShowModal = () => {
     dispatch(
@@ -35,7 +36,7 @@ const NewsCard = ({ news, removeLikes }) => {
   }, [isLiked]);
 
   return (
-    <div className="mx-auto p-5">
+    <div className="mx-auto sm:p-5">
       <div
         onClick={() => handleShowModal()}
         className="bg-[#f8f1e7] flex flex-col sm:flex-row gap-8 justify-center border-1 border-gray-200 shadow-md p-3 rounded-md cursor-pointer relative"
@@ -53,7 +54,7 @@ const NewsCard = ({ news, removeLikes }) => {
             className="rounded-md h-56 hover:scale-95 hover:transition-all"
           />
         </div>
-        <div className="w-7/12 max-sm:w-full flex flex-col items-start font-serif text-lg ">
+        <div className="sm:w-7/12 flex flex-col items-start font-serif text-lg ">
           <h3 className="font-bold text-2xl text-start sm:my-3">
             {`${
               news.title.length >= 95
@@ -61,7 +62,7 @@ const NewsCard = ({ news, removeLikes }) => {
                 : news.title
             }`}
           </h3>
-          <p className="font-medium my-2 text-start hidden sm:block">
+          <p className="font-medium my-2 text-start">
             {`${
               news.description.length >= 250
                 ? news.description.slice(0, 250) + "..."
@@ -83,7 +84,7 @@ const NewsCard = ({ news, removeLikes }) => {
             onClick={(e) => {
               e.stopPropagation();
               setIsLiked((prev) => !prev);
-              removeLikes && removeLikes();
+              setRemoveLike && setRemoveLike((prev) => !prev);
               isLiked ? removeFavorite(news.id) : addFavorite(news.id);
             }}
           >

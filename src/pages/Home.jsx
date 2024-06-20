@@ -15,85 +15,41 @@ const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const page = parseInt(useLocation().pathname.split("/")[1]) || 0;
-  const { news, loading, favourites } = useSelector(
+  const { news, loading, filteredNews } = useSelector(
     (state) => state.newsReducer
   );
-  console.log("news", favourites);
+  console.log("news filtered", filteredNews);
 
   useEffect(() => {
     //fetch news from api
     if (news.length === 0) {
       dispatch(fetchNews());
     }
-
-    //get all categories of news
-    const getCategories = () => {
-      try {
-        const allCategories = news.flatMap((newsItem) => newsItem.category);
-        const uniqueCategories = [...new Set(allCategories)];
-        setCategories(uniqueCategories);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    getCategories();
-  }, []);
-
-  console.log("category", categories);
+  }, [filteredNews]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [page]);
 
-  // Filter news based on selected categories
-  const filteredNews =
-    selectedCategories.length === 0
-      ? news
-      : news.filter((newsItem) =>
-          newsItem.category.some((category) =>
-            selectedCategories.includes(category)
-          )
-        );
-
   return (
     <div>
       <div className="border rounded relative">
-        <div className="border-b p-2 flex items-center justify-between shadow-md sticky top-0 z-10 bg-white">
-          <p className="text-xl font-semibold flex items-center gap-1 text-orange-600">
-            <PiTelevisionFill />
-            News Platform
-          </p>
-
-          <button
-            onClick={() => navigate("/favourites")}
-            className="px-12 py-2 rounded-md flex items-center gap-3"
-          >
-            Favourites
-          </button>
-
-          <MultiSelectDropdown
-            options={categories}
-            selectedOptions={selectedCategories}
-            onChange={setSelectedCategories}
-          />
-        </div>
-
         {loading ? (
           <Spinner />
         ) : (
-          <div className="overflow-auto">
+          <div>
             {page === 0 &&
-              filteredNews
-                .slice(0, 10)
-                .map((news, index) => <NewsCard news={news} key={index} />)}
+              (filteredNews.length > 0 ? filteredNews : news)
+                ?.slice(0, 10)
+                ?.map((news, index) => <NewsCard news={news} key={index} />)}
             {page === 1 &&
-              filteredNews
-                .slice(10, 20)
-                .map((news, index) => <NewsCard news={news} key={index} />)}
+              (filteredNews.length > 0 ? filteredNews : news)
+                ?.slice(10, 20)
+                ?.map((news, index) => <NewsCard news={news} key={index} />)}
             {page === 2 &&
-              filteredNews
-                .slice(20)
-                .map((news, index) => <NewsCard news={news} key={index} />)}
+              (filteredNews.length > 0 ? filteredNews : news)
+                ?.slice(20)
+                ?.map((news, index) => <NewsCard news={news} key={index} />)}
           </div>
         )}
         <hr />

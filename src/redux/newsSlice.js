@@ -4,6 +4,7 @@ const initialState = {
   news: [],
   loading: false,
   fullNews: null,
+  filteredNews: [],
 };
 
 const newsSlice = createSlice({
@@ -19,9 +20,12 @@ const newsSlice = createSlice({
     setFullNews: (state, action) => {
       state.fullNews = action.payload;
     },
+    setFilteredNews: (state, action) => {
+      state.filteredNews = action.payload;
+    },
   },
 });
 
-export const { setAllNews, setLoading, setFullNews } = newsSlice.actions;
+export const { setAllNews, setLoading, setFullNews, setFilteredNews } = newsSlice.actions;
 
 export default newsSlice.reducer;
