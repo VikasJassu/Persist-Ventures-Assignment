@@ -14,6 +14,7 @@ const Favourites = () => {
     dispatch(fetchNews());
   }, [dispatch]);
 
+  //instanly update favorites in favorite page
   useEffect(() => {
     const favourites = getfavourites();
     if (news.length > 0 && favourites.length > 0) {

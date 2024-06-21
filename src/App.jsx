@@ -7,9 +7,11 @@ import Favourites from "./components/Favourites";
 import Header from "./components/Header";
 
 function App() {
+  //get detailed news from redux store to show in modal
   const { fullNews } = useSelector((state) => state.newsReducer);
   return (
     <>
+      //blur background when detailed news modal is opened
       <div className={`${fullNews ? "blur-sm" : ""}`}>
         <Header />
         <Routes>

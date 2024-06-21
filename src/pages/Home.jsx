@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchNews } from "../services/newsAPI";
+import { PiSmileySadLight } from "react-icons/pi";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -13,15 +14,19 @@ const Home = () => {
   const { news, loading, filteredNews } = useSelector(
     (state) => state.newsReducer
   );
-  console.log("news filtered", filteredNews);
 
+   //fetch news from api
   useEffect(() => {
-    //fetch news from api
     if (news.length === 0) {
       dispatch(fetchNews());
     }
+    //if filtered news length is less than 10 then show all filtered news on first page
+    if (filteredNews.length < 10) {
+      navigate("/");
+    }
   }, [filteredNews]);
 
+  //scroll to top when navigate to new page
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [page]);
@@ -32,19 +37,55 @@ const Home = () => {
         {loading ? (
           <Spinner />
         ) : (
-          <div className="">
+          <div>
             {page === 0 &&
-              (filteredNews.length > 0 ? filteredNews : news)
-                ?.slice(0, 10)
-                ?.map((news, index) => <NewsCard news={news} key={index} />)}
+              (filteredNews.length > 0 ? (
+                filteredNews
+                  .slice(0, 10)
+                  .map((news, index) => <NewsCard news={news} key={index} />)
+              ) : (
+                <div className="flex flex-col justify-center items-center h-[80vh]">
+                  <p className="text-9xl text-gray-600">
+                    {" "}
+                    <PiSmileySadLight />
+                  </p>
+                  <p className="text-2xl font-semibold text-orange-700">
+                    No News Found
+                  </p>
+                </div>
+              ))}
             {page === 1 &&
-              (filteredNews.length > 0 ? filteredNews : news)
-                ?.slice(10, 20)
-                ?.map((news, index) => <NewsCard news={news} key={index} />)}
+              (filteredNews.length > 0 ? (
+                filteredNews
+                  .slice(10, 20)
+                  .map((news, index) => <NewsCard news={news} key={index} />)
+              ) : (
+                <div className="flex flex-col justify-center items-center h-[80vh]">
+                  <p className="text-9xl text-gray-600">
+                    {" "}
+                    <PiSmileySadLight />
+                  </p>
+                  <p className="text-2xl font-semibold text-orange-700">
+                    No News Found
+                  </p>
+                </div>
+              ))}
             {page === 2 &&
-              (filteredNews.length > 0 ? filteredNews : news)
-                ?.slice(20)
-                ?.map((news, index) => <NewsCard news={news} key={index} />)}
+              (filteredNews.length > 0 ? (
+                filteredNews
+                  .slice(20)
+                  .map((news, index) => <NewsCard news={news} key={index} />)
+              ) : (
+                <div className="flex flex-col justify-center items-center h-[80vh]">
+                  <p className="text-9xl text-gray-600">
+                    {" "}
+                    <PiSmileySadLight />
+                  </p>
+                  <p className="text-2xl font-semibold text-orange-700">
+                    No News Found
+                  </p>
+                </div>
+              ))}
           </div>
         )}
         <hr />

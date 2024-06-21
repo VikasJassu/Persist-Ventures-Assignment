@@ -3,6 +3,7 @@ import { setAllNews, setLoading } from "../redux/newsSlice";
 import toast from "react-hot-toast";
 
 export const fetchNews = () => {
+  //get all news from API and add them to redux store
   return async (dispatch) => {
     dispatch(setLoading(true));
     try {

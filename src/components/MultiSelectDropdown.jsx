@@ -4,6 +4,7 @@ import { LuFilter } from "react-icons/lu";
 export const MultiSelectDropdown = ({ options, selectedOptions, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  //handle checkbox changes here, update list instantly
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
     const newSelectedOptions = event.target.checked

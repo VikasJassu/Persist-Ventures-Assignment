@@ -14,6 +14,7 @@ const NewsCard = ({ news, setFavouriteNews }) => {
   const [msg, setMsg] = useState(false);
   const dispatch = useDispatch();
 
+  //function to dispatch data for modal to show detailed news
   const handleShowModal = () => {
     dispatch(
       setFullNews({
@@ -25,6 +26,7 @@ const NewsCard = ({ news, setFavouriteNews }) => {
     );
   };
 
+  //handle favourite news here
   const handleAddFavourite = (e) => {
     e.stopPropagation();
     if (isLiked) {
@@ -39,6 +41,7 @@ const NewsCard = ({ news, setFavouriteNews }) => {
     );
   };
 
+  //instantly handle favorite icon color by getting the like's status
   useEffect(() => {
     const favourites = getfavourites();
     setIsLiked(favourites.includes(news.id));
@@ -64,14 +67,24 @@ const NewsCard = ({ news, setFavouriteNews }) => {
           />
         </div>
         <div className="sm:w-7/12 flex flex-col items-start font-serif text-lg mb-2">
-          <h3 className="font-bold text-2xl text-start sm:my-3">
+          <h3 className="font-bold text-2xl text-start sm:my-3 sm:block hidden">
             {news.title.length >= 95
               ? news.title.slice(0, 95) + "..."
               : news.title}
           </h3>
-          <p className="font-medium my-2 text-start break-words break-all">
+          <p className="font-medium my-2 text-start break-words break-all sm:block hidden">
             {news.description.length >= 250
               ? news.description.slice(0, 250) + "..."
+              : news.description}
+          </p>
+          <h3 className="font-bold text-2xl text-start sm:my-3 sm:hidden">
+            {news.title.length >= 55
+              ? news.title.slice(0, 55) + "..."
+              : news.title}
+          </h3>
+          <p className="font-medium my-2 text-start break-words break-all sm:hidden">
+            {news.description.length >= 200
+              ? news.description.slice(0, 200) + "..."
               : news.description}
           </p>
         </div>
