@@ -11,7 +11,6 @@ function App() {
   const { fullNews } = useSelector((state) => state.newsReducer);
   return (
     <>
-      //blur background when detailed news modal is opened
       <div className={`${fullNews ? "blur-sm" : ""}`}>
         <Header />
         <Routes>
