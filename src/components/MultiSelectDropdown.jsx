@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { LuFilter } from "react-icons/lu";
 
 export const MultiSelectDropdown = ({ options, selectedOptions, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,9 +20,12 @@ export const MultiSelectDropdown = ({ options, selectedOptions, onChange }) => {
           className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <p className="hidden sm:block">Filter by Categories</p>
+          <p className="hidden sm:block">Filter by Categories</p>{" "}
+          <p className="sm:hidden px-3 text-lg">
+            <LuFilter />
+          </p>
           <svg
-            className="-mr-1 ml-2 h-5 w-5"
+            className="-mr-1 ml-2 h-5 w-5 hidden sm:block"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -36,7 +40,7 @@ export const MultiSelectDropdown = ({ options, selectedOptions, onChange }) => {
         </button>
       </div>
       {isOpen && (
-        <div className="origin-top-left absolute -left-7 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+        <div className="sm:origin-top-left absolute sm:-left-7 -left-[70px] mt-2 sm:w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
           <div
             className="py-1"
             role="menu"

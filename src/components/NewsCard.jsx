@@ -36,10 +36,10 @@ const NewsCard = ({ news, setRemoveLike }) => {
   }, [isLiked]);
 
   return (
-    <div className="mx-auto sm:p-5">
+    <div className="mx-auto sm:p-5 py-3">
       <div
         onClick={() => handleShowModal()}
-        className="bg-[#f8f1e7] flex flex-col sm:flex-row gap-8 justify-center border-1 border-gray-200 shadow-md p-3 rounded-md cursor-pointer relative"
+        className="bg-[#f8f1e7] flex flex-col sm:flex-row sm:gap-8 gap-3 justify-center border-1 border-gray-200 shadow-md p-3 rounded-md cursor-pointer relative"
       >
         <div className="">
           <img
@@ -54,7 +54,7 @@ const NewsCard = ({ news, setRemoveLike }) => {
             className="rounded-md h-56 hover:scale-95 hover:transition-all"
           />
         </div>
-        <div className="sm:w-7/12 flex flex-col items-start font-serif text-lg ">
+        <div className="sm:w-7/12 flex flex-col items-start font-serif text-lg mb-2">
           <h3 className="font-bold text-2xl text-start sm:my-3">
             {`${
               news.title.length >= 95
@@ -62,7 +62,7 @@ const NewsCard = ({ news, setRemoveLike }) => {
                 : news.title
             }`}
           </h3>
-          <p className="font-medium my-2 text-start">
+          <p className="font-medium my-2 text-start  break-words break-all">
             {`${
               news.description.length >= 250
                 ? news.description.slice(0, 250) + "..."

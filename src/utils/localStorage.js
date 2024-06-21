@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 // Function to add a news ID to favorites
 export const addFavorite = (newsId) => {
   const existingFavorites =
@@ -5,6 +7,7 @@ export const addFavorite = (newsId) => {
 
   const updatedFavorites = [...existingFavorites, newsId];
   window.localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+  toast.success("Added to favorites");
 };
 
 // Function to remove a news ID from favorites

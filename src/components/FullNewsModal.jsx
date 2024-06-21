@@ -11,7 +11,7 @@ const FullNewsModal = ({ news }) => {
         <div className="flex justify-end relative">
           <button
             onClick={() => dispatch(setFullNews(null))}
-            className="font-bold absolute -top-6 -right-8 bg-white rounded-full text-xl"
+            className="font-bold absolute -top-6 sm:-right-8 -right-6 bg-white rounded-full text-xl"
           >
             <IoClose />
           </button>

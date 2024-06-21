@@ -37,7 +37,7 @@ const Home = () => {
         {loading ? (
           <Spinner />
         ) : (
-          <div>
+          <div className="">
             {page === 0 &&
               (filteredNews.length > 0 ? filteredNews : news)
                 ?.slice(0, 10)
@@ -54,13 +54,13 @@ const Home = () => {
         )}
         <hr />
 
-        <div className="flex justify-between px-5 py-2">
+        <div className="flex justify-between sm:px-5 px-2 py-2">
           <button
             disabled={page == 0}
             onClick={() => navigate(`/${page - 1}`)}
             className={`${
               page == 0 ? "bg-orange-400 cursor-not-allowed" : "bg-orange-600"
-            }  text-white px-12 py-2 rounded-md flex items-center gap-3`}
+            }  text-white sm:px-12 px-9 py-2 rounded-md flex items-center gap-3`}
           >
             <FaArrowLeft /> Prev
           </button>
@@ -70,7 +70,7 @@ const Home = () => {
             onClick={() => navigate(`/${page + 1}`)}
             className={`${
               page == 2 ? "bg-orange-400 cursor-not-allowed" : "bg-orange-600"
-            }  text-white px-12 py-2 rounded-md flex items-center gap-3`}
+            }  text-white sm:px-12 px-9 py-2 rounded-md flex items-center gap-3`}
           >
             Next <FaArrowRight />
           </button>
