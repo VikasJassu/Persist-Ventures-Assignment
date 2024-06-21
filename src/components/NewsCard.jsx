@@ -4,16 +4,15 @@ import { useDispatch } from "react-redux";
 import {
   addFavorite,
   removeFavorite,
-  getFavorites,
+  getfavourites,
 } from "../utils/localStorage";
 import { setFullNews } from "../redux/newsSlice";
 import { Link } from "react-router-dom";
 
-const NewsCard = ({ news, setRemoveLike }) => {
+const NewsCard = ({ news, setFavouriteNews }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [msg, setMsg] = useState(false);
   const dispatch = useDispatch();
-  console.log("like haat gya", isLiked);
 
   const handleShowModal = () => {
     dispatch(
@@ -26,14 +25,24 @@ const NewsCard = ({ news, setRemoveLike }) => {
     );
   };
 
-  useEffect(() => {
-    const favorites = getFavorites();
-    if (favorites.includes(news.id)) {
-      setIsLiked(true);
+  const handleAddFavourite = (e) => {
+    e.stopPropagation();
+    if (isLiked) {
+      removeFavorite(news.id);
     } else {
-      setIsLiked(false);
+      addFavorite(news.id);
     }
-  }, [isLiked]);
+    setIsLiked((prev) => !prev);
+    const updatedFavourites = getfavourites();
+    setFavouriteNews((prev) =>
+      prev.filter((item) => updatedFavourites.includes(item.id))
+    );
+  };
+
+  useEffect(() => {
+    const favourites = getfavourites();
+    setIsLiked(favourites.includes(news.id));
+  }, [news.id]);
 
   return (
     <div className="mx-auto sm:p-5 py-3">
@@ -41,7 +50,7 @@ const NewsCard = ({ news, setRemoveLike }) => {
         onClick={() => handleShowModal()}
         className="bg-[#f8f1e7] flex flex-col sm:flex-row sm:gap-8 gap-3 justify-center border-1 border-gray-200 shadow-md p-3 rounded-md cursor-pointer relative"
       >
-        <div className="">
+        <div>
           <img
             src={`${
               news.image !== "None"
@@ -56,18 +65,14 @@ const NewsCard = ({ news, setRemoveLike }) => {
         </div>
         <div className="sm:w-7/12 flex flex-col items-start font-serif text-lg mb-2">
           <h3 className="font-bold text-2xl text-start sm:my-3">
-            {`${
-              news.title.length >= 95
-                ? news.title.slice(0, 95) + "..."
-                : news.title
-            }`}
+            {news.title.length >= 95
+              ? news.title.slice(0, 95) + "..."
+              : news.title}
           </h3>
-          <p className="font-medium my-2 text-start  break-words break-all">
-            {`${
-              news.description.length >= 250
-                ? news.description.slice(0, 250) + "..."
-                : news.description
-            }`}
+          <p className="font-medium my-2 text-start break-words break-all">
+            {news.description.length >= 250
+              ? news.description.slice(0, 250) + "..."
+              : news.description}
           </p>
         </div>
         <div className="flex absolute text-xl cursor-pointer gap-2 bottom-2 right-2">
@@ -80,18 +85,11 @@ const NewsCard = ({ news, setRemoveLike }) => {
           >
             <FaBookOpen />
           </Link>
-          <p
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsLiked((prev) => !prev);
-              setRemoveLike && setRemoveLike((prev) => !prev);
-              isLiked ? removeFavorite(news.id) : addFavorite(news.id);
-            }}
-          >
+          <p onClick={(e) => handleAddFavourite(e)}>
             {isLiked ? <FaHeart className="text-red-600" /> : <FaRegHeart />}
           </p>
           {msg && (
-            <p className="bg-orange-500 text-xs rounded-lg p-1 absolute right-7 bottom-6 transition-all">
+            <p className="bg-orange-500 text-xs rounded-lg p-1 absolute right-7 bottom-6 transition-all hidden sm:block">
               Original Article
             </p>
           )}

@@ -1,26 +1,27 @@
 import toast from "react-hot-toast";
 
-// Function to add a news ID to favorites
+// Function to add a news ID to favourites
 export const addFavorite = (newsId) => {
-  const existingFavorites =
-    JSON.parse(window.localStorage.getItem("favorites")) || [];
+  const existingfavourites =
+    JSON.parse(window.localStorage.getItem("favourites")) || [];
 
-  const updatedFavorites = [...existingFavorites, newsId];
-  window.localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-  toast.success("Added to favorites");
+  const updatedfavourites = [...existingfavourites, newsId];
+  window.localStorage.setItem("favourites", JSON.stringify(updatedfavourites));
+  toast.success("Added to favourites");
 };
 
-// Function to remove a news ID from favorites
+// Function to remove a news ID from favourites
 export const removeFavorite = (newsId) => {
-  const existingFavorites =
-    JSON.parse(window.localStorage.getItem("favorites")) || [];
+  const existingfavourites =
+    JSON.parse(window.localStorage.getItem("favourites")) || [];
 
-  const updatedFavorites = existingFavorites.filter((id) => id !== newsId);
-  window.localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+  const updatedfavourites = existingfavourites.filter((id) => id !== newsId);
+  window.localStorage.setItem("favourites", JSON.stringify(updatedfavourites));
 };
 
-// Get existing favorites from local storage
-export const getFavorites = () => {
-  const favorites = JSON.parse(window.localStorage.getItem("favorites")) || [];
-  return favorites;
+// Get existing favourites from local storage
+export const getfavourites = () => {
+  const favourites =
+    JSON.parse(window.localStorage.getItem("favourites")) || [];
+  return favourites;
 };

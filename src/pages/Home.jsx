@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { MultiSelectDropdown } from "../components/MultiSelectDropdown";
+import React, { useEffect } from "react";
 import NewsCard from "../components/NewsCard";
 import Spinner from "../components/Spinner";
-import { PiTelevisionFill } from "react-icons/pi";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchNews } from "../services/newsAPI";
 
 const Home = () => {
-  const [categories, setCategories] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const page = parseInt(useLocation().pathname.split("/")[1]) || 0;
