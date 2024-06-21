@@ -15,14 +15,10 @@ const Home = () => {
     (state) => state.newsReducer
   );
 
-   //fetch news from api
+  //fetch news from api
   useEffect(() => {
     if (news.length === 0) {
       dispatch(fetchNews());
-    }
-    //if filtered news length is less than 10 then show all filtered news on first page
-    if (filteredNews.length < 10) {
-      navigate("/");
     }
   }, [filteredNews]);
 
@@ -54,38 +50,48 @@ const Home = () => {
                   </p>
                 </div>
               ))}
-            {page === 1 &&
-              (filteredNews.length > 0 ? (
-                filteredNews
-                  .slice(10, 20)
-                  .map((news, index) => <NewsCard news={news} key={index} />)
-              ) : (
-                <div className="flex flex-col justify-center items-center h-[80vh]">
-                  <p className="text-9xl text-gray-600">
-                    {" "}
-                    <PiSmileySadLight />
-                  </p>
-                  <p className="text-2xl font-semibold text-orange-700">
-                    No News Found
-                  </p>
-                </div>
-              ))}
-            {page === 2 &&
-              (filteredNews.length > 0 ? (
-                filteredNews
-                  .slice(20)
-                  .map((news, index) => <NewsCard news={news} key={index} />)
-              ) : (
-                <div className="flex flex-col justify-center items-center h-[80vh]">
-                  <p className="text-9xl text-gray-600">
-                    {" "}
-                    <PiSmileySadLight />
-                  </p>
-                  <p className="text-2xl font-semibold text-orange-700">
-                    No News Found
-                  </p>
-                </div>
-              ))}
+            {page === 1 && filteredNews.length === 0 ? (
+              <div className="flex flex-col justify-center items-center h-[80vh]">
+                <p className="text-9xl text-gray-600">
+                  {" "}
+                  <PiSmileySadLight />
+                </p>
+                <p className="text-2xl font-semibold text-orange-700">
+                  No News Found
+                </p>
+              </div>
+            ) : filteredNews.length > 9 ? (
+              filteredNews
+                .slice(10, 20)
+                .map((news, index) => <NewsCard news={news} key={index} />)
+            ) : filteredNews.length <= 30 ? (
+              filteredNews.map((news, index) => (
+                <NewsCard news={news} key={index} />
+              ))
+            ) : (
+              <div></div>
+            )}
+            {page === 2 && filteredNews.length === 0 ? (
+              <div className="flex flex-col justify-center items-center h-[80vh]">
+                <p className="text-9xl text-gray-600">
+                  {" "}
+                  <PiSmileySadLight />
+                </p>
+                <p className="text-2xl font-semibold text-orange-700">
+                  No News Found
+                </p>
+              </div>
+            ) : filteredNews.length > 19 ? (
+              filteredNews
+                .slice(20)
+                .map((news, index) => <NewsCard news={news} key={index} />)
+            ) : filteredNews.length <= 30 ? (
+              filteredNews.map((news, index) => (
+                <NewsCard news={news} key={index} />
+              ))
+            ) : (
+              <div></div>
+            )}
           </div>
         )}
         <hr />

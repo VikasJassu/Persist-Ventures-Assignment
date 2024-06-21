@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { LuFilter } from "react-icons/lu";
 
 export const MultiSelectDropdown = ({ options, selectedOptions, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
-  //handle checkbox changes here, update list instantly
+  // Handle checkbox changes here, update list instantly
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
     const newSelectedOptions = event.target.checked
@@ -13,15 +14,29 @@ export const MultiSelectDropdown = ({ options, selectedOptions, onChange }) => {
     onChange(newSelectedOptions);
   };
 
+  // Handle click outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="relative inline-block text-left">
+    <div ref={dropdownRef} className="relative inline-block text-left">
       <div>
         <button
           type="button"
           className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <p className="hidden sm:block">Filter by Categories</p>{" "}
+          <p className="hidden sm:block">Filter by Categories</p>
           <p className="sm:hidden px-3 text-lg">
             <LuFilter />
           </p>
