@@ -10,7 +10,7 @@ import { PiSmileySadLight } from "react-icons/pi";
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const page = parseInt(useLocation().pathname.split("/")[1]) || 0;
+  const page = parseInt(useLocation().pathname.split("/")[2]) || 0;
   const { news, loading, filteredNews } = useSelector(
     (state) => state.newsReducer
   );
@@ -101,7 +101,7 @@ const Home = () => {
         <div className="flex justify-between sm:px-5 px-2 py-2">
           <button
             disabled={page == 0}
-            onClick={() => navigate(`/${page - 1}`)}
+            onClick={() => navigate(`/pages/${page - 1}`)}
             className={`${
               page == 0 ? "bg-orange-400 cursor-not-allowed" : "bg-orange-600"
             }  text-white sm:px-12 px-9 py-2 rounded-md flex items-center gap-3`}
@@ -111,7 +111,7 @@ const Home = () => {
 
           <button
             disabled={page == 2}
-            onClick={() => navigate(`/${page + 1}`)}
+            onClick={() => navigate(`/pages/${page + 1}`)}
             className={`${
               page == 2 ? "bg-orange-400 cursor-not-allowed" : "bg-orange-600"
             }  text-white sm:px-12 px-9 py-2 rounded-md flex items-center gap-3`}

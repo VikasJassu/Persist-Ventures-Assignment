@@ -16,7 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/favourites" element={<Favourites />} />
-          <Route path="/:page" element={<Home />} />
+          <Route path="/pages/:page" element={<Home />} />
         </Routes>
       </div>
       <div className="absolute top-48 left-5 md:top-16 md:left-52 mx-auto">
