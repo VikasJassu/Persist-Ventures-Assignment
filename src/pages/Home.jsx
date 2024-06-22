@@ -50,48 +50,50 @@ const Home = () => {
                   </p>
                 </div>
               ))}
-            {page === 1 && filteredNews.length === 0 ? (
-              <div className="flex flex-col justify-center items-center h-[80vh]">
-                <p className="text-9xl text-gray-600">
-                  {" "}
-                  <PiSmileySadLight />
-                </p>
-                <p className="text-2xl font-semibold text-orange-700">
-                  No News Found
-                </p>
-              </div>
-            ) : filteredNews.length > 9 ? (
-              filteredNews
-                .slice(10, 20)
-                .map((news, index) => <NewsCard news={news} key={index} />)
-            ) : filteredNews.length <= 30 ? (
-              filteredNews.map((news, index) => (
-                <NewsCard news={news} key={index} />
-              ))
-            ) : (
-              <div></div>
-            )}
-            {page === 2 && filteredNews.length === 0 ? (
-              <div className="flex flex-col justify-center items-center h-[80vh]">
-                <p className="text-9xl text-gray-600">
-                  {" "}
-                  <PiSmileySadLight />
-                </p>
-                <p className="text-2xl font-semibold text-orange-700">
-                  No News Found
-                </p>
-              </div>
-            ) : filteredNews.length > 19 ? (
-              filteredNews
-                .slice(20)
-                .map((news, index) => <NewsCard news={news} key={index} />)
-            ) : filteredNews.length <= 30 ? (
-              filteredNews.map((news, index) => (
-                <NewsCard news={news} key={index} />
-              ))
-            ) : (
-              <div></div>
-            )}
+            {page === 1 &&
+              (filteredNews.length > 0 ? (
+                news.length === filteredNews.length ? (
+                  news
+                    .slice(10, 20)
+                    .map((news, index) => <NewsCard news={news} key={index} />)
+                ) : (
+                  filteredNews
+                    .slice(0, 10)
+                    .map((news, index) => <NewsCard news={news} key={index} />)
+                )
+              ) : (
+                <div className="flex flex-col justify-center items-center h-[80vh]">
+                  <p className="text-9xl text-gray-600">
+                    {" "}
+                    <PiSmileySadLight />
+                  </p>
+                  <p className="text-2xl font-semibold text-orange-700">
+                    No News Found
+                  </p>
+                </div>
+              ))}
+            {page === 2 &&
+              (filteredNews.length > 0 ? (
+                news.length === filteredNews.length ? (
+                  news
+                    .slice(20)
+                    .map((news, index) => <NewsCard news={news} key={index} />)
+                ) : (
+                  filteredNews
+                    .slice(0, 10)
+                    .map((news, index) => <NewsCard news={news} key={index} />)
+                )
+              ) : (
+                <div className="flex flex-col justify-center items-center h-[80vh]">
+                  <p className="text-9xl text-gray-600">
+                    {" "}
+                    <PiSmileySadLight />
+                  </p>
+                  <p className="text-2xl font-semibold text-orange-700">
+                    No News Found
+                  </p>
+                </div>
+              ))}
           </div>
         )}
         <hr />

@@ -17,6 +17,7 @@ export const removeFavorite = (newsId) => {
 
   const updatedfavourites = existingfavourites.filter((id) => id !== newsId);
   window.localStorage.setItem("favourites", JSON.stringify(updatedfavourites));
+  toast.error("Removed from favourites");
 };
 
 // Get existing favourites from local storage
